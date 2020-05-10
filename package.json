@@ -5,8 +5,9 @@
   "main": "server.js",
   "scripts": {
     "server": "nodemon server.js",
-    "client": "cd client && npm start",
-    "dev": "concurrently --names \"server,client\" \"npm run server --silent\" \"npm run client --silent\""
+    "client": "cd client && npm run serve",
+    "dev": "concurrently --names \"server,client\" \"npm run server --silent\" \"npm run client --silent\"",
+    "lint": "stylelint 'src/**/*.scss' 'src/**/*.vue' && vue-cli-service lint --no-fix"
   },
   "keywords": [],
   "author": "Reed Barger",
@@ -21,7 +22,13 @@
     "mongoose": "^5.2.6"
   },
   "devDependencies": {
+    "@vue/cli-service": "^4.3.1",
+    "babel-eslint": "^10.1.0",
     "concurrently": "^3.6.0",
-    "nodemon": "^1.18.1"
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "nodemon": "^1.18.1",
+    "stylelint": "^13.3.3"
   }
 }
