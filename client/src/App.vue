@@ -7,16 +7,14 @@
     fixed
     v-model="showSideNav"
   >
-    <v-toolbar
-      color="#BF653F"
-      dark
-      flat
+    <v-app-bar
+      color="white"
     >
-      <v-app-bar-nav-icon @click="toggleSideNav" />
+      <v-app-bar-nav-icon @click="toggleSideNav" color="secondary" />
       <router-link to="/" tag="span" style="cursor:pointer">
         <h1 class="title pl-3">VueShare</h1>
       </router-link>
-    </v-toolbar>
+    </v-app-bar>
 
     <v-divider></v-divider>
 
@@ -28,7 +26,7 @@
         :to="item.link"
       >
         <v-list-item-icon>
-          <v-icon>{{ item.icon }}</v-icon>
+          <v-icon color="primary">{{ item.icon }}</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
           {{ item.title }}
@@ -36,7 +34,7 @@
       </v-list-item>
 
       <!-- Signout button -->
-      <v-list-item v-if="user">
+      <v-list-item v-if="user" @click="handleSignoutUser">
         <v-list-item-icon>
           <v-icon>mdi-exit-to-app</v-icon>
         </v-list-item-icon>
@@ -50,11 +48,10 @@
     <!-- Horizontal Navbar -->
   <v-app-bar
     app
-    color="#3B125F"
-    dark
+    color="white"
   >
   <!-- App Title -->
-    <v-app-bar-nav-icon @click="toggleSideNav"></v-app-bar-nav-icon>
+    <v-app-bar-nav-icon @click="toggleSideNav" color="secondary"></v-app-bar-nav-icon>
     <v-toolbar-title class="hidden-xs-only">
       <router-link to="/" tag="span" style="cursor: pointer">
         VueShare
@@ -81,13 +78,12 @@
         :key="item.title"
         :to="item.link"
       >
-        <v-icon class="hidden-sm-only" left>{{ item.icon }}</v-icon>
+        <v-icon class="hidden-sm-only" color="primary" left>{{ item.icon }}</v-icon>
         {{ item.title }}
       </v-btn>
 
       <!-- Profile Button -->
       <v-btn
-        flat
         text
         to="/profile"
         v-if="user"
@@ -101,9 +97,9 @@
 
       <!-- Signout Button -->
       <v-btn
-        flat
         text
         v-if="user"
+        @click="handleSignoutUser"
       >
         <v-icon class="hidden-sm-only" left>mdi-exit-to-app</v-icon>
         Signout
@@ -162,9 +158,13 @@ export default {
     },
   },
   methods: {
+    handleSignoutUser() {
+      this.$store.dispatch('signoutUser');
+    },
     toggleSideNav() {
       this.showSideNav = !this.showSideNav;
     },
+
   },
 };
 </script>

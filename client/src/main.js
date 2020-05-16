@@ -7,11 +7,8 @@ import router from './router';
 import store from './store';
 import vuetify from './plugins/vuetify';
 
-
-Vue.use(VueApollo);
-
 //  Setup ApolloClient
-export const defaultClient = new ApolloClient({
+export const apolloClient = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
   // Include auth token with requests made to backend
   fetchOptions: {
@@ -36,14 +33,16 @@ export const defaultClient = new ApolloClient({
     }
 
     if (graphQLErrors) {
-      for (let err of graphQLErrors) {
-        console.dir(err);
-      }
+      Object.keys(graphQLErrors).forEach((error) => {
+        console.dir(error);
+      });
     }
   },
 });
 
-const apolloProvider = new VueApollo({ defaultClient });
+Vue.use(VueApollo);
+
+export const apolloProvider = new VueApollo({ defaultClient: apolloClient });
 
 Vue.config.productionTip = false;
 

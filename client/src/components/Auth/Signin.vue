@@ -34,7 +34,7 @@
               <v-col>
                 <div>
                   <v-btn
-                    color="accent"
+                    color="primary"
                     type="submit"
                   >
                   Signin
@@ -75,7 +75,7 @@ export default {
       if (value) {
         this.$router.push('/');
       }
-    }
+    },
   },
   methods: {
     handleSigninUser() {

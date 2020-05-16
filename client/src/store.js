@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import router from './router';
 
-import { defaultClient as apolloClient } from './main';
+import { apolloClient } from './main';
 
 import { GET_POSTS, SIGNIN_USER, GET_CURRENT_USER } from './queries';
 
@@ -26,14 +26,17 @@ export default new Vuex.Store({
     setLoading: (state, payload) => {
       state.loading = payload;
     },
+
+    clearUser: state => (state.user === null),
   },
 
   actions: {
     getCurrentUser: ({ commit }) => {
       commit('setLoading', true);
-      apolloClient.query({
-        query: GET_CURRENT_USER,
-      })
+      apolloClient
+        .query({
+          query: GET_CURRENT_USER,
+        })
         .then(({ data }) => {
           commit('setLoading', false);
           // Add user data to state
@@ -64,7 +67,7 @@ export default new Vuex.Store({
         });
     },
 
-    signinUser: ({ commit }, payload) => {
+    signinUser: (_, payload) => {
       apolloClient
         .mutate({
           mutation: SIGNIN_USER,
@@ -78,6 +81,19 @@ export default new Vuex.Store({
         .catch((err) => {
           console.error(err);
         });
+    },
+
+    signoutUser: async ({ commit }) => {
+      // Clear user in state
+      commit('clearUser');
+      // Remove token in localStorage
+      localStorage.setItem('token', '');
+      // End session
+      console.log('[apolloClient]', apolloClient);
+      
+      await apolloClient.resetStore();
+      // Redirect to home - kick users out of any private pages
+      router.push('/');
     },
   },
 
